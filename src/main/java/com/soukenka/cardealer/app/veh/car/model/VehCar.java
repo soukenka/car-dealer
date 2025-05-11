@@ -1,5 +1,6 @@
 package com.soukenka.cardealer.app.veh.car.model;
 
+import com.soukenka.cardealer.app.veh.car.validation.VehCarConstraint;
 import com.soukenka.cardealer.core.model.BaseCreatableEntity;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
@@ -24,6 +25,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "veh_car")
 @AttributeOverride(name = "id", column = @Column(name = "id_veh_car", nullable = false))
+@VehCarConstraint
 public class VehCar extends BaseCreatableEntity {
     /**
      * The name of the vehicle car.

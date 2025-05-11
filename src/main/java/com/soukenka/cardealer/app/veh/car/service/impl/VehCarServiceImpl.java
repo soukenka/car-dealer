@@ -36,4 +36,9 @@ public class VehCarServiceImpl
     protected Class<VehCarListDto> getListDtoClass() {
         return VehCarListDto.class;
     }
+
+    @Override
+    public boolean isUniqueName(@NonNull VehCar entity) {
+        return repository.isUniqueName(entity.getId(), entity.getName());
+    }
 }

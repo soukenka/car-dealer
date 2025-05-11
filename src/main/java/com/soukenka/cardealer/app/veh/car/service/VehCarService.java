@@ -14,4 +14,11 @@ import com.soukenka.cardealer.core.service.BaseRestService;
  * @created 08.05.2025
  */
 public interface VehCarService extends BaseRestService<VehCar, VehCarCreateDto, VehCarListDto, Long> {
+    /**
+     * Checks if the given car name is unique in the database.
+     *
+     * @param entity The vehicle car entity to check
+     * @return {@code true} if the name is unique, {@code false} otherwise
+     */
+    boolean isUniqueName(VehCar entity);
 }
