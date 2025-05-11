@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Import -->
+    <import class="ch.qos.logback.core.ConsoleAppender"/>
+    <import class="ch.qos.logback.core.rolling.RollingFileAppender"/>
+    <import class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"/>
+    <import class="ch.qos.logback.classic.filter.ThresholdFilter"/>
+
+    <!-- Properties -->
+    <property name="LOG_DIR" value="logs/"/>
+    <property name="LOG_DIR_ARCHIVE" value="${LOG_DIR}/archive"/>
+    <property name="LOG_FILE_SUFFIX" value="%d{yyyy-MM-dd}.%i.log.gz"/>
+
+    <property name="MAX_FILE_SIZE" value="100MB"/>
+    <property name="MAX_HISTORY" value="30"/>
+    <property name="TOTAL_SIZE_CAP" value="1GB"/>
+
+    <property name="LOG_PATTERN_CONSOLE"
+              value="%d{HH:mm:ss.SSS} [%thread,%X{traceId},%X{spanId}] %-5level %logger{36} - %msg%n"/>
+    <property name="LOG_PATTERN_FILE"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread,%X{traceId},%X{spanId}] %-5level %logger{36} - %msg%n"/>
+
+    <!-- Console Appender -->
+    <appender name="STDOUT" class="ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN_CONSOLE}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appenders -->
+    <appender name="FILE-ERROR" class="RollingFileAppender">
+        <file>${LOG_DIR}/error.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN_FILE}</pattern>
+        </encoder>
+        <rollingPolicy class="SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR_ARCHIVE}/error.${LOG_FILE_SUFFIX}</fileNamePattern>
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP}</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <appender name="FILE-APP" class="RollingFileAppender">
+        <file>${LOG_DIR}/app.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN_FILE}</pattern>
+        </encoder>
+        <rollingPolicy class="SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR_ARCHIVE}/app.${LOG_FILE_SUFFIX}</fileNamePattern>
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP}</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="FILE-ALL" class="RollingFileAppender">
+        <file>${LOG_DIR}/all.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN_FILE}</pattern>
+        </encoder>
+        <rollingPolicy class="SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR_ARCHIVE}/all.${LOG_FILE_SUFFIX}</fileNamePattern>
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP}</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Loggers -->
+    <logger name="com.soukenka.cardealer" level="INFO">
+        <appender-ref ref="FILE-APP"/>
+    </logger>
+
+    <!-- Root Logger -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE-ERROR"/>
+        <appender-ref ref="FILE-ALL"/>
+    </root>
+
+</configuration>
