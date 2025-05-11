@@ -10,6 +10,12 @@ spring:
     password: ${DB_PASSWORD}
   liquibase:
     contexts: default # no context specified means all contexts are executed
+  jpa:
+    properties:
+      jakarta:
+        persistence:
+          validation:
+            mode: none
 server:
   error:
     whitelabel:
