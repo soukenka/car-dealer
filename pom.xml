@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -12,13 +12,21 @@
     <artifactId>car-dealer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>CarDealer</name>
-    <description>CarDealer</description>
+    <description>Basic REST API for car dealer</description>
     <url/>
     <licenses>
         <license/>
     </licenses>
     <developers>
-        <developer/>
+        <developer>
+            <id>soukenka</id>
+            <name>Daniel Soukenka</name>
+            <email>danielsoukenka@seznam.cz</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>UTC+1</timezone>
+        </developer>
     </developers>
     <scm>
         <connection/>
@@ -130,5 +138,20 @@
             </plugin>
         </plugins>
     </build>
-
+    <repositories>
+        <!-- Primary repo -->
+        <repository>
+            <id>maven_central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <!-- Primary repo - plugins -->
+        <pluginRepository>
+            <id>maven_central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
