@@ -1,0 +1,43 @@
+---
+# default
+spring:
+  application:
+    name: CarDealer
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:car-dealer}?createDatabaseIfNotExist=true
+    username: ${DB_USER:api}
+    password: ${DB_PASSWORD}
+  liquibase:
+    contexts: default # no context specified means all contexts are executed
+server:
+  error:
+    whitelabel:
+      enabled: false
+
+---
+# dev
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  liquibase:
+    contexts: dev
+  config:
+    activate:
+      on-profile: dev
+server:
+  error:
+    whitelabel:
+      enabled: true
+
+---
+# prod
+spring:
+  liquibase:
+    contexts: prod
+  config:
+    activate:
+      on-profile: prod
