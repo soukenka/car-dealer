@@ -1,0 +1,9 @@
+/*
+# Not ignored files
+!.gitignore
+!runConfigurations
+!dataSources.xml
+!modules.xml
+!encodings.xml
+!misc.xml
+!vcs.xml
