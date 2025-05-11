@@ -1,5 +1,6 @@
 package com.soukenka.cardealer.core.api.wrapper;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.lang.NonNull;
@@ -17,15 +18,21 @@ import java.util.Collection;
  * @version 1.0
  * @created 08.05.2025
  */
+@Schema(description = "Response wrapper for paginated data")
 public record PageResponse<T>(
+        @Schema(description = "Collection of data items for current page")
         @NotNull Collection<T> data,
 
+        @Schema(description = "Current page number (0-based)", example = "0")
         @NotNull int pageNumber,
 
+        @Schema(description = "Maximum number of items per page", example = "20")
         @NotNull int pageSize,
 
+        @Schema(description = "Total number of items across all pages", example = "105")
         @NotNull long totalElements,
 
+        @Schema(description = "Total number of pages", example = "6")
         @NotNull int totalPages) {
 
     /**

@@ -10,6 +10,7 @@ import com.soukenka.cardealer.core.validation.ValidatorBean;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -96,6 +97,7 @@ public abstract class BaseRestController<E extends IdentifiableEntity<ID>, C ext
     @GetMapping
     public ResponseEntity<PageResponse<L>> getAll(
             @SortDefault(sort = "id", direction = Sort.Direction.DESC)
+            @ParameterObject
             Pageable pageable) {
         log.info("Getting all records");
         Page<L> result = getService().getAll(pageable);
