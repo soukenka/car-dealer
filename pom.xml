@@ -34,9 +34,26 @@
         <tag/>
         <url/>
     </scm>
+
+    <profiles>
+        <profile>
+            <!-- dev -->
+            <id>dev</id>
+            <properties>
+                <!-- allow devtools in repackaged jar -->
+                <exclude.devtools>false</exclude.devtools>
+            </properties>
+        </profile>
+    </profiles>
+
     <properties>
+        <!-- exclude devtools from prod -->
+        <exclude.devtools>true</exclude.devtools>
+
+        <!-- versions -->
         <java.version>21</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -113,6 +130,20 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                    <excludeDevtools>${exclude.devtools}</excludeDevtools>
+                </configuration>
+            </plugin>
+            <!-- Lombok + MapStruct -->
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -124,17 +155,31 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <!-- Unpack jar (for performance) -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/docker-build</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

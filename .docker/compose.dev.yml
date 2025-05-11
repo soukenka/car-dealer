@@ -1,0 +1,29 @@
+services:
+  mariadb:
+    extends:
+      service: mariadb
+      file: compose.yml
+  api:
+    extends:
+      service: api
+      file: compose.yml
+    build:
+      target: dev
+    depends_on:
+      mariadb:
+        condition: service_started
+    ports:
+      - ${API_DEBUG_PORT:-8000}:8000
+    environment:
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000
+    volumes:
+      - ../logs:/logs
+      - ../target/docker-build/BOOT-INF/lib:/app/lib
+      - ../target/docker-build/META-INF:/app/META-INF
+      - ../target/docker-build/BOOT-INF/classes:/app/classes
+
+volumes:
+  db-data:
+
+networks:
+  db-be-network:

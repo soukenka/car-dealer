@@ -1,0 +1,32 @@
+# check=skip=InvalidDefaultArgInFrom
+
+ARG JAVA_VERSION
+FROM docker.io/library/eclipse-temurin:${JAVA_VERSION}-jre-alpine AS dev
+# Expose port
+EXPOSE 8080
+
+# Install curl
+RUN apk update && apk add --no-cache curl
+
+# Metadata
+ARG PROJECT_VERSION
+LABEL org.opencontainers.image.title="CarDealer"
+LABEL org.opencontainers.image.description="Basic REST API for car dealer"
+LABEL org.opencontainers.image.version=${PROJECT_VERSION}
+LABEL org.opencontainers.image.vendor="Daniel Soukenka"
+LABEL org.opencontainers.image.base.name="docker.io/library/eclipse-temurin"
+
+# Entrypoint
+ENTRYPOINT exec java -cp app/classes:app/lib/* com.soukenka.cardealer.CarDealerApplication
+
+################################################################################
+FROM dev AS prod
+
+# Copy
+ARG DEPENDENCY=./target/docker-build
+COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY ${DEPENDENCY}/META-INF /app/META-INF
+COPY ${DEPENDENCY}/BOOT-INF/classes /app/classes
+
+# Entrypoint - debug
+#ENTRYPOINT ["tail", "-f", "/dev/null"]

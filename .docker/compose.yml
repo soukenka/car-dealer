@@ -1,0 +1,45 @@
+services:
+  mariadb:
+    image: mariadb:${MARIADB_VERSION}
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-car-dealer}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_USER: ${DB_USER:-api}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      TZ: "Europe/Prague"
+    ports:
+      - ${DB_PORT:-3306}:3306
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      start_period: 30s
+      start_interval: 5s
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+    networks:
+      db-be-network:
+
+  api:
+    build:
+      context: ..
+      dockerfile: .docker/Containerfile
+      args:
+        JAVA_VERSION: ${JAVA_VERSION}
+        PROJECT_VERSION: ${PROJECT_VERSION}
+    image: car-dealer/api
+    ports:
+      - ${API_PORT:-8080}:8080
+    environment:
+      DB_HOST: mariadb
+      DB_USER: ${DB_USER:-api}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME:-car-dealer}
+      DB_PORT: 3306
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
+      TZ: "Europe/Prague"
+    healthcheck:
+      start_period: 60s
+      start_interval: 5s
+      interval: 150s
+      test: curl --fail --silent localhost:${API_PORT:-8080}/actuator/health | grep UP || exit 1
+    networks:
+      db-be-network:
