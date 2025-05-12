@@ -1,0 +1,24 @@
+services:
+  dev:
+    image: eclipse-temurin:${JAVA_VERSION}-jdk-alpine
+    volumes:
+      - ..:/app/
+      - ~/.m2:/root/.m2
+    working_dir: /app/
+    command: tail -f /dev/null
+  clean:
+    extends:
+      service: dev
+    command: "./mvnw clean -DskipTests -P dev"
+  package:
+    extends:
+      service: dev
+    command: "./mvnw package -DskipTests -P dev"
+  clean-package:
+    extends:
+      service: dev
+    command: "./mvnw clean package -DskipTests -P dev"
+  verify:
+    extends:
+      service: dev
+    command: "./mvnw clean verify -P dev"
