@@ -26,7 +26,7 @@ Build projektu lze provést lokálně nebo přes Docker - vyberte jednu z možno
   `[LOCAL] maven clean package`
 
 - IntelliJ konfigurace pro build v Dockeru (pomalejší, nevyžaduje Javu, přenositelný):  
-  `[LOCAL] maven clean package`
+  `[DOCKER] maven clean package`
 
 - Přímý CLI skript pro build v Dockeru (+ nezávislý na IDE):
 
