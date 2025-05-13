@@ -16,4 +16,5 @@ public final class Endpoints {
     public static final String ENDPOINT_V1 = "/api/v1/";
 
     public static final String ENDPOINT_V1_VEH = ENDPOINT_V1 + "veh/";
+    public static final String ENDPOINT_V1_VEH_CAR = ENDPOINT_V1_VEH + "cars";
 }

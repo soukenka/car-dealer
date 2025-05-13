@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 /**
  * Service for managing {@link VehCar} entities in the system.
@@ -39,6 +40,8 @@ public class VehCarServiceImpl
 
     @Override
     public boolean isUniqueName(@NonNull VehCar entity) {
+        Assert.notNull(entity, "Parameter 'entity' cannot be null");
+        
         return repository.isUniqueName(entity.getId(), entity.getName());
     }
 }

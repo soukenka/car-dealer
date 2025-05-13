@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = Endpoints.ENDPOINT_V1_VEH + "cars")
+@RequestMapping(path = Endpoints.ENDPOINT_V1_VEH_CAR)
 public class VehCarController extends BaseRestController<VehCar, VehCarCreateDto, VehCarListDto, Long> {
     @Getter(AccessLevel.PROTECTED)
     private final VehCarService service;
