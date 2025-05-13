@@ -4,8 +4,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.lang.NonNull;
 
 import java.time.Instant;
 
@@ -17,6 +19,7 @@ import java.time.Instant;
  * @created 08.05.2025
  */
 @Getter
+@NoArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseCreatableEntity extends BaseEntity implements CreatableEntity {
@@ -27,4 +30,8 @@ public class BaseCreatableEntity extends BaseEntity implements CreatableEntity {
     @CreatedDate
     @Column(name = "created_date", nullable = false, updatable = false)
     private Instant createdDate;
+
+    public BaseCreatableEntity(@NonNull Long id) {
+        super(id);
+    }
 }

@@ -8,9 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.lang.NonNull;
+import org.springframework.util.Assert;
 
 /**
  * Entity representing a vehicle car in the system.
@@ -22,6 +22,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "veh_car")
 @AttributeOverride(name = "id", column = @Column(name = "id_veh_car", nullable = false))
@@ -34,4 +36,11 @@ public class VehCar extends BaseCreatableEntity {
     @Size(max = 255)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
+
+    public VehCar(@NonNull Long id, @NonNull String name) {
+        super(id);
+        Assert.notNull(name, "Name must not be null");
+
+        this.name = name;
+    }
 }
